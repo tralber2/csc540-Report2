@@ -10,11 +10,11 @@ public class ReportUtils {
 	
 	}
 	
-	public static void reportOccupancyByDateRange(){
+	public static void reportOccupancyByDateRange(Date startDate, Date endDate){
 		
 	}
 	
-	public static void reportOccupancyByCity(){
+	public static void reportOccupancyByCity(string city){
 		
 	}
 	
@@ -22,11 +22,11 @@ public class ReportUtils {
 		
 	}
 	
-	public static void reportAllStaffServingCustomer(){
+	public static void reportAllStaffServingCustomer(int customerId){
 		
 	}
 	
-	public static void reportRevenueGeneratedByHotelForGivenDateRange() {
+	public static void reportRevenueGeneratedByHotelForGivenDateRange(Date startDate, Date endDate) {
 		
 	}
 }
