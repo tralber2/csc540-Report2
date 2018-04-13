@@ -174,6 +174,7 @@ public class InfoProcUtils {
         while (rs.next()) {
             String room = i + ". " + rs.getInt(1) + " | " + rs.getInt(2);
             roomList.add(room);
+            i++;
         }
 
         return roomList;

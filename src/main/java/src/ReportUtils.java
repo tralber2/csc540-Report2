@@ -1,5 +1,7 @@
 package src;
 
+import java.sql.Date;
+
 public class ReportUtils {
 	
 	public static void reportOccupancyByHotel(){
@@ -14,7 +16,7 @@ public class ReportUtils {
 		
 	}
 	
-	public static void reportOccupancyByCity(string city){
+	public static void reportOccupancyByCity(String city){
 		
 	}
 	
