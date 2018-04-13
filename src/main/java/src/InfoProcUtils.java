@@ -1,8 +1,8 @@
 package src;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InfoProcUtils {
     public static int insertHotel(String name, String phone, String address, String city, int manager_id) throws SQLException {
@@ -113,31 +113,135 @@ public class InfoProcUtils {
         ps.executeUpdate();
     }
 
-    public static int insertCustomer(String name, String date_of_birth, String phone, String email) {
-        return 0;
+    public static int insertCustomer(String name, String date_of_birth, String phone, String email) throws SQLException {
+        PreparedStatement ps = ConnectionUtils.getConnection().prepareStatement("INSERT INTO customer(name, date_of_birth, phone, email) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+        ps.setString(1, name);
+        ps.setString(2, date_of_birth);
+        ps.setString(3, phone);
+        ps.setString(4, email);
+
+        ps.executeUpdate();
+
+        // Get the auto-generated id and return it
+        return ps.getGeneratedKeys().getInt(1);
     }
 
-    public static void updateCustomer(int customer_id, String name, String date_of_birth, String phone, String email) {
+    public static void updateCustomer(int customer_id, String name, String date_of_birth, String phone, String email) throws SQLException {
+        PreparedStatement ps = ConnectionUtils.getConnection().prepareStatement("UPDATE customer SET name=?, date_of_birth=?, phone=?, email=?, WHERE id=?");
 
+        ps.setString(1, name);
+        ps.setString(2, date_of_birth);
+        ps.setString(3, phone);
+        ps.setString(4, email);
+
+        ps.setInt(5, customer_id);
+
+        ps.executeUpdate();
     }
 
-    public static void deleteCustomer(int customer_id) {
+    public static void deleteCustomer(int customer_id) throws SQLException {
+        PreparedStatement ps = ConnectionUtils.getConnection().prepareStatement("DELETE FROM customer WHERE id=?");
 
+        ps.setInt(1, customer_id);
+
+        ps.executeUpdate();
     }
 
-    public static boolean checkRoomNumberAvailability(int room_id) {
-        return false;
+    public static boolean checkRoomNumberAvailability(int hotel_id, int room_num) throws SQLException {
+        PreparedStatement ps = ConnectionUtils.getConnection().prepareStatement("SELECT availability FROM room WHERE \n" +
+                "hotel_id=? AND \n" +
+                "num=?");
+        ps.setInt(1, hotel_id);
+        ps.setInt(2, room_num);
+
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getBoolean(1);
+        } else {
+            return false;
+        }
     }
 
-    public static boolean checkRoomTypeAvailability(String category) {
-        return false;
+    public static List<String> checkRoomTypeAvailability(String category) throws SQLException {
+        PreparedStatement ps = ConnectionUtils.getConnection().prepareStatement("SELECT hotel_id, num FROM room WHERE \n" +
+                "category=? AND availability=1");
+        ps.setString(1, category);
+
+        ResultSet rs = ps.executeQuery();
+
+        List<String> roomList = new ArrayList<String>();
+        int i = 1;
+        while (rs.next()) {
+            String room = i + ". " + rs.getInt(1) + " | " + rs.getInt(2);
+            roomList.add(room);
+        }
+
+        return roomList;
     }
 
-    public static void assignRoomToCustomer(int room_id, int customer_id) {
+    public static void assignRoomToCustomer(int hotel_id, int room_id, int customer_id, int number_of_guests, Date startdate, boolean discount) {
+        Connection con = ConnectionUtils.getConnection();
+        try {
+            con.setAutoCommit(false);
+            PreparedStatement occupyPS = con.prepareStatement("INSERT INTO occupies(hotel_id, room_id, customer_id,number_of_guest, start_date, discount) VALUES(?,?,?,?,?,?)");
+            occupyPS.setInt(1, hotel_id);
+            occupyPS.setInt(2, room_id);
+            occupyPS.setInt(3, customer_id);
+            occupyPS.setInt(4, number_of_guests);
+            occupyPS.setDate(5, startdate);
+            occupyPS.setBoolean(6, discount);
+            occupyPS.executeUpdate();
 
+            PreparedStatement roomPS = con.prepareStatement("UPDATE room SET availability=0 WHERE id=?");
+            roomPS.setInt(1, room_id);
+            roomPS.executeUpdate();
+
+            con.commit();
+        } catch (SQLException e) {
+            System.out.println("Assign Room to Customer Transaction Failed");
+            try {
+                con.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        } finally {
+            try {
+                con.setAutoCommit(true);
+            } catch (SQLException e) {
+                // Turning autocommit back on failed...
+                e.printStackTrace();
+            }
+        }
     }
 
-    public static void releaseRoom(int room_id) {
+    public static void releaseRoom(int room_id, int customer_id) {
+        Connection con = ConnectionUtils.getConnection();
+        try {
+            con.setAutoCommit(false);
+            PreparedStatement occupyPS = con.prepareStatement("UPDATE occupies SET end_date=GETDATE() where customer_id=? AND room_id=? AND end_date=NULL;");
+            occupyPS.setInt(1, customer_id);
+            occupyPS.setInt(2, room_id);
+            occupyPS.executeUpdate();
 
+            PreparedStatement roomPS = con.prepareStatement("UPDATE room SET availability=1 WHERE id=?");
+            roomPS.setInt(1, room_id);
+            roomPS.executeUpdate();
+
+            con.commit();
+        } catch (SQLException e) {
+            System.out.println("Release Room Failed");
+            try {
+                con.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        } finally {
+            try {
+                con.setAutoCommit(true);
+            } catch (SQLException e) {
+                // Turning autocommit back on failed...
+                e.printStackTrace();
+            }
+        }
     }
 }
