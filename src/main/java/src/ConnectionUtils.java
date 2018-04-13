@@ -9,7 +9,7 @@ public class ConnectionUtils {
 
     private static final String url = "jdbc:mysql://localhost/project_2";
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
         return connection;
     }
 

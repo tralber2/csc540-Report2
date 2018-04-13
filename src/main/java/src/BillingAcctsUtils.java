@@ -2,11 +2,11 @@ package src;
 
 public class BillingAcctsUtils {
 	
-	public static int insertBillingInfo(string ssn, string address, string creditCardNumber, string paymentMethod){
+	public static int insertBillingInfo(String ssn, String address, String creditCardNumber, String paymentMethod){
 		return 0;
 	}
 	
-	public static void updateBillingInfo(int id, string ssn, string address, string creditCardNumber, string paymentMethod){
+	public static void updateBillingInfo(int id, String ssn, String address, String creditCardNumber, String paymentMethod){
 		
 	}
 	
