@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class ServiceRecordsUtils {
+public class ServiceRecordsDAO {
     public static int purchaseService(int service_id, int staff_id, int customer_id, Date purchase_date) throws SQLException {
         PreparedStatement ps = ConnectionUtils.getConnection().prepareStatement("INSERT INTO purchase(service_id, staff_id, customer_id, purchase_date) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
         ps.setInt(1, service_id);

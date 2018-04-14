@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BillingAcctsUtils {
+public class BillingAcctsDAO {
 	
 	public static int insertBillingInfo(String ssn, String address, String creditCardNumber, String paymentMethod) throws SQLException {
         PreparedStatement ps = ConnectionUtils.getConnection().prepareStatement("INSERT INTO billing_info(ssn, address, credit_card_number, credit_card_type) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);

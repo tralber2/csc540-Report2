@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InfoProcUtils {
+public class InfoProcDAO {
     public static int insertHotel(String name, String phone, String address, String city, int manager_id) throws SQLException {
         PreparedStatement ps = ConnectionUtils.getConnection().prepareStatement("INSERT INTO hotel(name, phone, address, city, manager_id) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, name);
