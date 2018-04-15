@@ -122,20 +122,21 @@ public class ReportDAO {
         return returnString.toString();
 	}
 	
-	public static String reportRevenueGeneratedByHotelForGivenDateRange(Date startDate, Date endDate) throws SQLException {
+	public static String reportRevenueGeneratedByHotelForGivenDateRange(int hotelID, Date startDate, Date endDate) throws SQLException {
         PreparedStatement ps = ConnectionUtils.getConnection().prepareStatement("" +
                 "SELECT " +
                 "coalesce((SELECT IF(discount=1, .95, 1.0)*SUM(fee) " +
                 "FROM service JOIN purchase ON service_id = service.id JOIN occupies ON occupies.customer_id = purchase.customer_id " +
                 "WHERE purchase_date >= ? AND purchase_date  <= ?), 0.0) + " +
                 "coalesce((SELECT SUM(IF(discount=1, .95, 1.0)*(datediff(end_date, start_date)* nightly_rate )) " +
-                "FROM occupies JOIN room ON room_number = room.id AND occupies.hotel_id = room.hotel_id " +
+                "FROM occupies JOIN room ON room_number = room.id AND occupies.hotel_id = room.hotel_id AND occupies.hotel_id =?" +
                 "WHERE ? <= end_date AND ? >= end_date), 0.0) AS Revenue");
 
         ps.setDate(1, startDate);
         ps.setDate(2, endDate);
-        ps.setDate(3, startDate);
-        ps.setDate(4, endDate);
+        ps.setInt(3, hotelID);
+        ps.setDate(4, startDate);
+        ps.setDate(5, endDate);
 
         ResultSet rs = ps.executeQuery();
 

@@ -16,7 +16,9 @@ public class InfoProcDAO {
         ps.executeUpdate();
 
         // Get the auto-generated id and return it
-        return ps.getGeneratedKeys().getInt(1);
+        ResultSet rs = ps.getGeneratedKeys();
+        rs.next();
+        return rs.getInt(1);
     }
 
     public static void updateHotel(int hotel_id, String name, String phone, String address, String city, int manager_id) throws SQLException {
@@ -41,27 +43,29 @@ public class InfoProcDAO {
         ps.executeUpdate();
     }
 
-    public static int insertRoom(int room_number, int hotel_id, String category, int max_occupancy, float nightly_rate) throws SQLException {
+    public static int insertRoom(int room_number, int hotel_id, String category, int max_occupancy, int nightly_rate) throws SQLException {
         PreparedStatement ps = ConnectionUtils.getConnection().prepareStatement("INSERT INTO room(num,hotel_id, category, max_occupancy, nightly_rate, availability) VALUES (?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
         ps.setInt(1, room_number);
         ps.setInt(2, hotel_id);
         ps.setString(3, category);
         ps.setInt(4, max_occupancy);
-        ps.setFloat(5, nightly_rate);
+        ps.setInt(5, nightly_rate);
         ps.setBoolean(6, true);
 
         ps.executeUpdate();
 
         // Get the auto-generated id and return it
-        return ps.getGeneratedKeys().getInt(1);
+        ResultSet rs = ps.getGeneratedKeys();
+        rs.next();
+        return rs.getInt(1);
     }
 
-    public static void updateRoom(int room_id, String category, int max_occupancy, float nightly_rate) throws SQLException {
+    public static void updateRoom(int room_id, String category, int max_occupancy, int nightly_rate) throws SQLException {
         PreparedStatement ps = ConnectionUtils.getConnection().prepareStatement("UPDATE room SET category=?, max_occupancy=?, nightly_rate=? WHERE id=?");
 
         ps.setString(1, category);
         ps.setInt(2, max_occupancy);
-        ps.setFloat(3, nightly_rate);
+        ps.setInt(3, nightly_rate);
         ps.setInt(4, room_id);
 
         ps.executeUpdate();
@@ -87,7 +91,9 @@ public class InfoProcDAO {
         ps.executeUpdate();
 
         // Get the auto-generated id and return it
-        return ps.getGeneratedKeys().getInt(1);
+        ResultSet rs = ps.getGeneratedKeys();
+        rs.next();
+        return rs.getInt(1);
     }
 
     public static void updateStaff(int staff_id, String name, int age, String department, String phone, String address, String job_title) throws SQLException {
@@ -123,7 +129,9 @@ public class InfoProcDAO {
         ps.executeUpdate();
 
         // Get the auto-generated id and return it
-        return ps.getGeneratedKeys().getInt(1);
+        ResultSet rs = ps.getGeneratedKeys();
+        rs.next();
+        return rs.getInt(1);
     }
 
     public static void updateCustomer(int customer_id, String name, String date_of_birth, String phone, String email) throws SQLException {

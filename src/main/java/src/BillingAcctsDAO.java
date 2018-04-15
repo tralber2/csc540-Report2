@@ -46,18 +46,11 @@ public class BillingAcctsDAO {
         ps.executeUpdate();
 	}
 	
-	public static void updateHasBillingInfo(int customerId, int billingId) throws SQLException {
-        PreparedStatement ps = ConnectionUtils.getConnection().prepareStatement("UPDATE has_billing_info SET billing_id = ? WHERE customer_id = ?");
-        ps.setInt(1, billingId);
-        ps.setInt(2, customerId);
-
-        ps.executeUpdate();
-	}
-	
-	public static void deleteHasBillingInfo(int customerId) throws SQLException {
-        PreparedStatement ps = ConnectionUtils.getConnection().prepareStatement("DELETE FROM has_billing_info WHERE customer_id=?");
+	public static void deleteHasBillingInfo(int customerId, int billingId) throws SQLException {
+        PreparedStatement ps = ConnectionUtils.getConnection().prepareStatement("DELETE FROM has_billing_info WHERE customer_id=? AND billing_id=?");
 
         ps.setInt(1, customerId);
+        ps.setInt(2, billingId);
 
         ps.executeUpdate();
 	}
