@@ -38,7 +38,7 @@ CREATE TABLE room (
 	#16
 id INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 #3
-num VARCHAR(30) NOT NULL,
+num INT(10) NOT NULL,
 #17
 hotel_id INT(10) UNSIGNED ,
 #4
@@ -131,12 +131,12 @@ INSERT INTO hotel (id, name, phone, address, city, manager_id ) VALUES ( 2, 'Hot
 INSERT INTO hotel (id, name, phone, address, city, manager_id ) VALUES ( 3, 'Hotel C', '984', '29 PQR St, Greensboro NC 27', 'Greensboro', 102);
 INSERT INTO hotel (id, name, phone, address, city, manager_id ) VALUES ( 4, 'Hotel D', '920', '28 GHW St, Raleigh NC 32', 'Raleigh', 105);
 
-INSERT INTO room (id, num, hotel_id, category, max_occupancy, nightly_rate, availability) VALUES ( 1, '01', 1, 'Economy', 1, 100, 1);
-INSERT INTO room (id, num, hotel_id, category, max_occupancy, nightly_rate, availability) VALUES ( 2, '02', 1, 'Deluxe', 2, 200, 1);
-INSERT INTO room (id, num, hotel_id, category, max_occupancy, nightly_rate, availability) VALUES ( 3, '03', 2, 'Economy', 1, 100, 1);
-INSERT INTO room (id, num, hotel_id, category, max_occupancy, nightly_rate, availability) VALUES ( 4, '02', 3, 'Executive', 3, 1000, 0);
-INSERT INTO room (id, num, hotel_id, category, max_occupancy, nightly_rate, availability) VALUES ( 5, '01', 4, 'Presidential', 4, 5000, 1);
-INSERT INTO room (id, num, hotel_id, category, max_occupancy, nightly_rate, availability) VALUES ( 6, '05', 1, 'Deluxe', 2, 200, 1);
+INSERT INTO room (id, num, hotel_id, category, max_occupancy, nightly_rate, availability) VALUES ( 1, 1, 1, 'Economy', 1, 100, 1);
+INSERT INTO room (id, num, hotel_id, category, max_occupancy, nightly_rate, availability) VALUES ( 2, 2, 1, 'Deluxe', 2, 200, 1);
+INSERT INTO room (id, num, hotel_id, category, max_occupancy, nightly_rate, availability) VALUES ( 3, 3, 2, 'Economy', 1, 100, 1);
+INSERT INTO room (id, num, hotel_id, category, max_occupancy, nightly_rate, availability) VALUES ( 4, 2, 3, 'Executive', 3, 1000, 0);
+INSERT INTO room (id, num, hotel_id, category, max_occupancy, nightly_rate, availability) VALUES ( 5, 1, 4, 'Presidential', 4, 5000, 1);
+INSERT INTO room (id, num, hotel_id, category, max_occupancy, nightly_rate, availability) VALUES ( 6, 5, 1, 'Deluxe', 2, 200, 1);
 
 INSERT INTO customer (id, name, date_of_birth, phone, email) VALUES ( 1001, 'David', STR_TO_DATE('1-30-1980 00:00:00','%m-%d-%Y %H:%i:%s'), '123', 'david@gmail.com');
 INSERT INTO customer (id, name, date_of_birth, phone, email) VALUES ( 1002, 'Sarah', STR_TO_DATE('1-30-1971 00:00:00','%m-%d-%Y %H:%i:%s'), '456', 'sarah@gmail.com');
