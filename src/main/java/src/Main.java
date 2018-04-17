@@ -16,13 +16,13 @@ public class Main {
         InputUtils.finish();
     }
 
-
-
     private static void executeMain() {
         Scanner inputScanner = InputUtils.getScanner();
         while(true) {
             showMainMenu();
             try {
+                Object o = null;
+                
                 // parse the user's input. If it isn't an int, try again
                 int option = Integer.parseInt(inputScanner.nextLine());
                 switch (option) {
@@ -45,7 +45,6 @@ public class Main {
             } catch (Exception e) {
                 System.out.println("Invalid value, try again");
             }
-
         }
     }
 
@@ -57,6 +56,4 @@ public class Main {
         System.out.println("3. Maintaining Billing Accounts");
         System.out.println("4. Reports");
     }
-
-
 }
