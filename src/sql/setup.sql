@@ -91,13 +91,23 @@ FOREIGN KEY (hotel_id) REFERENCES hotel(id),
 FOREIGN KEY (room_id) REFERENCES room(id),
 FOREIGN KEY (customer_id) REFERENCES customer(id));
 
+#CREATE TABLE purchase(
+#id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+#9
+#service_id INT(10) UNSIGNED,
+#10
+#customer_id INT(10) UNSIGNED,
+#FOREIGN KEY (service_id) REFERENCES service(id),
+#FOREIGN KEY (customer_id) REFERENCES customer(id));
+
 CREATE TABLE purchase(
 id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-#9
-service_id INT(10) UNSIGNED,
-#10
-customer_id INT(10) UNSIGNED,
+service_id INT(6) UNSIGNED ,
+staff_id INT(6) UNSIGNED,
+customer_id INT(6) UNSIGNED,
+purchase_date DATETIME NOT NULL,
 FOREIGN KEY (service_id) REFERENCES service(id),
+FOREIGN KEY (staff_id) REFERENCES staff(id),
 FOREIGN KEY (customer_id) REFERENCES customer(id));
 
 
@@ -159,11 +169,11 @@ INSERT INTO occupies (hotel_id, room_id, room_num, customer_id, number_of_guest,
 INSERT INTO occupies (hotel_id, room_id, room_num, customer_id, number_of_guest, start_date, end_date, discount) VALUES (2, 3, '03', 1003, 1, STR_TO_DATE('5-10-2017 15:45:00','%m-%d-%Y %H:%i:%s'), STR_TO_DATE('5-14-2017 11:10:00','%m-%d-%Y %H:%i:%s'), 0);
 INSERT INTO occupies (hotel_id, room_id, room_num, customer_id, number_of_guest, start_date, end_date, discount) VALUES (3, 4, '02', 1004, 2, STR_TO_DATE('5-10-2017 14:30:00','%m-%d-%Y %H:%i:%s'), STR_TO_DATE('5-12-2017 10:00:00','%m-%d-%Y %H:%i:%s'), 0);
 
-INSERT INTO purchase ( service_id, customer_id) VALUES ( 2 , 1001);
-INSERT INTO purchase ( service_id,  customer_id) VALUES ( 3 , 1001);
-INSERT INTO purchase ( service_id,  customer_id) VALUES ( 3 , 1002);
-INSERT INTO purchase ( service_id,  customer_id) VALUES ( 4 , 1003);
-INSERT INTO purchase ( service_id,  customer_id) VALUES ( 1 , 1004);
+INSERT INTO purchase ( service_id, staff_id, customer_id, purchase_date) VALUES ( 2 , 101, 1001, STR_TO_DATE('1-30-1980 00:00:00','%m-%d-%Y %H:%i:%s'));
+INSERT INTO purchase ( service_id, staff_id, customer_id, purchase_date) VALUES ( 3 , 101, 1001, STR_TO_DATE('1-30-1980 00:00:00','%m-%d-%Y %H:%i:%s'));
+INSERT INTO purchase ( service_id, staff_id, customer_id, purchase_date) VALUES ( 3 , 102, 1002, STR_TO_DATE('1-30-1980 00:00:00','%m-%d-%Y %H:%i:%s'));
+INSERT INTO purchase ( service_id, staff_id, customer_id, purchase_date) VALUES ( 4 , 103, 1003, STR_TO_DATE('1-30-1980 00:00:00','%m-%d-%Y %H:%i:%s'));
+INSERT INTO purchase ( service_id, staff_id, customer_id, purchase_date) VALUES ( 1 , 104, 1004, STR_TO_DATE('1-30-1980 00:00:00','%m-%d-%Y %H:%i:%s'));
 
 INSERT INTO has_billing_info (customer_id, billing_id) VALUES (1001, 1);
 INSERT INTO has_billing_info (customer_id, billing_id) VALUES (1002, 2);
